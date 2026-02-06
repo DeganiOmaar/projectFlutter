@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/services/auth_service.dart';
-
-import 'login_screen.dart';
+import 'package:project/screens/profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,20 +8,24 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text("Home")),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            await AuthService.logout();
-            if (context.mounted) {
-              Navigator.pushAndRemoveUntil(
+      appBar: AppBar(
+        title: const Text("Home"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const LoginScreen()),
-                (_) => false,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
               );
-            }
-          },
-          child: const Text("Logout"),
+            },
+          ),
+        ],
+      ),
+      body: const Center(
+        child: Text(
+          "Welcome to Home",
+          style: TextStyle(fontSize: 20),
         ),
       ),
     );
