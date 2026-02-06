@@ -60,4 +60,62 @@ class AuthService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove("token");
   }
+
+// reset password service 
+
+  static Future<void> forgotPassword({
+    required String email,
+  }) async {
+    final url = Uri.parse("${ApiConfig.baseUrl}/auth/forgot-password");
+    final res = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"email": email}),
+    );
+
+    if (res.statusCode != 200) {
+      throw Exception(jsonDecode(res.body)["message"] ?? "Failed to send OTP");
+    }
+  }
+
+  static Future<void> verifyOTP({
+    required String email,
+    required String code,
+  }) async {
+    final url = Uri.parse("${ApiConfig.baseUrl}/auth/verify-otp");
+    final res = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"email": email, "code": code}),
+    );
+
+    if (res.statusCode != 200) {
+      throw Exception(jsonDecode(res.body)["message"] ?? "OTP verification failed");
+    }
+  }
+
+  static Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    final url = Uri.parse("${ApiConfig.baseUrl}/auth/reset-password");
+    final res = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "email": email,
+        "code": code,
+        "newPassword": newPassword,
+        "confirmPassword": confirmPassword,
+      }),
+    );
+
+    if (res.statusCode != 200) {
+      throw Exception(jsonDecode(res.body)["message"] ?? "Password reset failed");
+    }
+  }
+
+
 }
