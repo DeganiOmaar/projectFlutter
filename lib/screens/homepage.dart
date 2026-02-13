@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/screens/profile_screen.dart';
 import 'package:project/screens/dm_peers_screen.dart';
 import 'package:project/services/dm_service.dart';
+import "package:project/screens/chat_screen.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -44,6 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.black,
         elevation: 0,
         actions: [
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatScreen()));
+          }, icon: Icon(Icons.bubble_chart)),
           Stack(
             children: [
               IconButton(
